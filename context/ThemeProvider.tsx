@@ -1,7 +1,7 @@
 'use client';
 
 import React, {
-    useState, createContext, useContext, useMemo,
+    useState, createContext, useContext, useMemo, useEffect,
 } from 'react';
 
 interface ThemeContextType {
@@ -15,20 +15,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [mode, setMode] = useState('');
 
     const handleThemeChange = () => {
-        if (mode === 'dark') {
-            setMode('light');
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-        } else {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             setMode('dark');
             document.documentElement.classList.remove('light');
             document.documentElement.classList.add('dark');
+        } else {
+            setMode('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
         }
     };
 
-    // useEffect(() => {
-    //     handleThemeChange();
-    // }, [mode]);
+    useEffect(() => {
+        handleThemeChange();
+    }, [mode]);
 
     const contextValue = useMemo(() => ({ mode, setMode, handleThemeChange }), [mode]);
 
