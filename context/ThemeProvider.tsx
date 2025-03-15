@@ -1,7 +1,7 @@
 'use client';
 
 import React, {
-    useState, createContext, useEffect, useContext, useMemo,
+    useState, createContext, useContext, useMemo,
 } from 'react';
 
 interface ThemeContextType {
